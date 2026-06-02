@@ -26,7 +26,7 @@ const Home = () => {
             modes: { repulse: { distance: 100, duration: 0.4 } }
         },
         particles: {
-            color: { value: "#ffffff" },
+            color: { value: isDarkMode ? "#ffffff" : "#3b82f6" },
             number: { value: 120, density: { enable: true, width: 800 } },
             opacity: {
                 value: { min: 0.2, max: 0.8 },
@@ -39,12 +39,12 @@ const Home = () => {
             move: { enable: true, speed: 0.5, direction: "none", random: true, straight: false, outModes: "bounce" }
         },
         detectRetina: true
-    }), []);
+    }), [isDarkMode]);
 
   return (
     <div className="relative min-h-screen bg-slate-50 dark:bg-slate-900 overflow-hidden">
         {/* Global Homepage Background */}
-        {isDarkMode && init && <Particles id="tsparticles-home" options={particlesOptions} />}
+        {init && <Particles id="tsparticles-home" options={particlesOptions} />}
         
         {/* Global Animated Blobs */}
         <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">

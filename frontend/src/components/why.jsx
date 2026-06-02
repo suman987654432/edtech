@@ -56,7 +56,7 @@ const Why = () => {
             modes: { repulse: { distance: 100, duration: 0.4 } }
         },
         particles: {
-            color: { value: "#ffffff" },
+            color: { value: isDarkMode ? "#ffffff" : "#3b82f6" },
             number: { value: 80, density: { enable: true, width: 800 } }, // Slightly fewer stars for the content section
             opacity: {
                 value: { min: 0.2, max: 0.8 },
@@ -69,13 +69,13 @@ const Why = () => {
             move: { enable: true, speed: 0.5, direction: "none", random: true, straight: false, outModes: "bounce" }
         },
         detectRetina: true
-    }), []);
+    }), [isDarkMode]);
 
     return (
         <section className="py-24  relative overflow-hidden">
-            {/* TSParticles Dark Mode Stars Background */}
+            {/* TSParticles Background */}
             <div className="absolute inset-0 z-0" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}>
-                {isDarkMode && init && <Particles id="tsparticles-why" options={particlesOptions} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }} />}
+                {init && <Particles id="tsparticles-why" options={particlesOptions} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }} />}
             </div>
             {/* Background Animated Blobs */}
             <div className="absolute top-20 left-10 w-72 h-72 sm:w-96 sm:h-96 bg-blue-200 dark:bg-blue-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob"></div>
@@ -87,8 +87,8 @@ const Why = () => {
                 <div className="flex flex-col items-center text-center gap-6 mb-20">
 
                     <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.05]">
-                        Why Choose
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-400">Us?</span>
+                        Why Choose{' '}
+                        <span className="text-blue-700 dark:text-blue-500">Us?</span>
                     </h2>
                     <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed">
                         We bridge the gap between academic theory and industry reality through immersive, project-based learning.
