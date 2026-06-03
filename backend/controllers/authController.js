@@ -87,16 +87,16 @@ export const loginUser = async (req, res) => {
 // @access  Private
 export const updateProfile = async (req, res) => {
   const { name, email } = req.body;
-  
+
   try {
     const user = await User.findById(req.user.id);
 
     if (user) {
       user.name = name || user.name;
       user.email = email || user.email;
-      
+
       if (req.file) {
-        user.profileImage = `http://localhost:5000/uploads/${req.file.filename}`;
+        user.profileImage = `https://edtech-4.onrender.com/uploads/${req.file.filename}`;
       } else if (req.body.profileImage) {
         // Fallback to URL text if provided
         user.profileImage = req.body.profileImage;

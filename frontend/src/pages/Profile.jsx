@@ -7,7 +7,7 @@ const Profile = () => {
   const { user, updateUser, logout } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  
+
   // Edit Profile State
   const [formData, setFormData] = useState({
     name: user?.name || '',
@@ -33,7 +33,7 @@ const Profile = () => {
         submitData.append('profileImage', formData.profileImageFile);
       }
 
-      const response = await fetch('http://localhost:5000/api/auth/profile', {
+      const response = await fetch('https://edtech-4.onrender.com/api/auth/profile', {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${user?.token}`,
@@ -90,8 +90,8 @@ const Profile = () => {
 
             {/* Main Profile Info Card */}
             <div className="bg-white dark:bg-slate-800 rounded-3xl p-5 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 relative text-center transition-colors duration-500">
-              
-              <button 
+
+              <button
                 onClick={() => setIsEditModalOpen(true)}
                 className="absolute top-4 right-4 p-2.5 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-full transition-all duration-300 z-20 shadow-sm"
                 title="Edit Profile"
@@ -137,7 +137,7 @@ const Profile = () => {
                   {tab.name}
                 </button>
               ))}
-              
+
               {/* Logout Button in Sidebar */}
               <button
                 onClick={logout}
@@ -196,7 +196,7 @@ const Profile = () => {
                 {/* Main Content Box */}
                 <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 transition-colors duration-500">
                   <h2 className="text-xl font-black text-slate-900 dark:text-white mb-6">Recent Activity</h2>
-                  
+
                   <div className="flex flex-col items-center justify-center py-12 text-center">
                     <div className="w-20 h-20 bg-slate-50 dark:bg-slate-900 rounded-full flex items-center justify-center text-slate-400 dark:text-slate-500 mb-4 transition-colors duration-500">
                       <FaClock size={28} />
@@ -266,7 +266,7 @@ const Profile = () => {
       {isEditModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-2xl border border-slate-100 dark:border-slate-700 w-full max-w-lg relative animate-in zoom-in-95 duration-200">
-            <button 
+            <button
               onClick={() => setIsEditModalOpen(false)}
               className="absolute top-6 right-6 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors"
             >
@@ -280,20 +280,20 @@ const Profile = () => {
             <form onSubmit={handleProfileUpdate} className="space-y-6">
               <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Full Name</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-900 dark:text-white font-medium"
                   required
                 />
               </div>
               <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-900 dark:text-white font-medium"
                   required
                 />
@@ -303,18 +303,18 @@ const Profile = () => {
                 <div className="flex gap-4 items-center">
                   {formData.profileImagePreview && (
                     <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 flex-shrink-0 bg-slate-100">
-                      <img src={formData.profileImagePreview} alt="Preview" className="w-full h-full object-cover" onError={(e) => e.target.style.display='none'} />
+                      <img src={formData.profileImagePreview} alt="Preview" className="w-full h-full object-cover" onError={(e) => e.target.style.display = 'none'} />
                     </div>
                   )}
                   <div className="flex-1">
-                    <input 
-                      type="file" 
+                    <input
+                      type="file"
                       accept="image/*"
                       onChange={(e) => {
                         const file = e.target.files[0];
                         if (file) {
                           setFormData({
-                            ...formData, 
+                            ...formData,
                             profileImageFile: file,
                             profileImagePreview: URL.createObjectURL(file)
                           });
@@ -328,15 +328,15 @@ const Profile = () => {
               </div>
 
               <div className="pt-6 border-t border-slate-100 dark:border-slate-700 flex justify-end gap-3">
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => setIsEditModalOpen(false)}
                   className="px-6 py-3 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-xl transition-all hover:bg-slate-200 dark:hover:bg-slate-600"
                 >
                   Cancel
                 </button>
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   disabled={isUpdating}
                   className="flex items-center justify-center gap-2 px-8 py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-bold rounded-xl transition-all hover:-translate-y-0.5 shadow-lg shadow-blue-500/30"
                 >

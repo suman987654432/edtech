@@ -39,7 +39,7 @@ const AuthModal = () => {
     setError('');
     setLoading(true);
 
-    const url = isLogin ? 'http://localhost:5000/api/auth/login' : 'http://localhost:5000/api/auth/register';
+    const url = isLogin ? 'https://edtech-4.onrender.com/api/auth/login' : 'https://edtech-4.onrender.com/api/auth/register';
 
     try {
       const res = await fetch(url, {
@@ -64,14 +64,14 @@ const AuthModal = () => {
   return createPortal(
     <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 sm:p-6">
       {/* Backdrop */}
-      <div 
-        className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" 
+      <div
+        className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
         onClick={closeAuthModal}
       ></div>
-      
+
       {/* Modal Container */}
       <div className="relative bg-white dark:bg-slate-800 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-300">
-        
+
         {/* Header */}
         <div className="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-6 flex justify-between items-center relative z-10">
           <div>
@@ -82,7 +82,7 @@ const AuthModal = () => {
               {isLogin ? 'Login to continue your application.' : 'Join us to start your journey.'}
             </p>
           </div>
-          <button 
+          <button
             onClick={closeAuthModal}
             className="p-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 rounded-full transition-colors"
           >
@@ -106,8 +106,8 @@ const AuthModal = () => {
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                     <FaUser />
                   </div>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     name="name"
                     required
                     value={formData.name}
@@ -118,15 +118,15 @@ const AuthModal = () => {
                 </div>
               </div>
             )}
-            
+
             <div className="space-y-2">
               <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                   <FaEnvelope />
                 </div>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   name="email"
                   required
                   value={formData.email}
@@ -143,8 +143,8 @@ const AuthModal = () => {
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                   <FaLock />
                 </div>
-                <input 
-                  type="password" 
+                <input
+                  type="password"
                   name="password"
                   required
                   value={formData.password}
@@ -155,8 +155,8 @@ const AuthModal = () => {
               </div>
             </div>
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={loading}
               className="w-full mt-6 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/30 flex items-center justify-center disabled:opacity-70"
             >
@@ -167,9 +167,9 @@ const AuthModal = () => {
           {/* Toggle */}
           <div className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
             {isLogin ? "Don't have an account? " : "Already have an account? "}
-            <button 
-              type="button" 
-              onClick={() => { setIsLogin(!isLogin); setError(''); }} 
+            <button
+              type="button"
+              onClick={() => { setIsLogin(!isLogin); setError(''); }}
               className="font-bold text-blue-600 dark:text-blue-400 hover:underline"
             >
               {isLogin ? 'Sign up' : 'Login'}
