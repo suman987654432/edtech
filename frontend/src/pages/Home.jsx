@@ -4,6 +4,8 @@ import Why from '../components/why';
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import { useTheme } from '../context/ThemeContext';
+import How from '../components/How';
+import Program from '../components/Program';
 
 const Home = () => {
     const { isDarkMode } = useTheme();
@@ -41,25 +43,28 @@ const Home = () => {
         detectRetina: true
     }), [isDarkMode]);
 
-  return (
-    <div className="relative min-h-screen bg-slate-50 dark:bg-slate-900 overflow-hidden">
-        {/* Global Homepage Background */}
-        {init && <Particles id="tsparticles-home" options={particlesOptions} />}
-        
-        {/* Global Animated Blobs */}
-        <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-            <div className="absolute top-20 left-10 w-72 h-72 sm:w-96 sm:h-96 bg-blue-200 dark:bg-blue-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob"></div>
-            <div className="absolute top-40 right-10 w-72 h-72 sm:w-96 sm:h-96 bg-indigo-200 dark:bg-indigo-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob" style={{ animationDelay: '2000ms' }}></div>
-            <div className="absolute bottom-10 left-1/2 w-72 h-72 sm:w-96 sm:h-96 bg-slate-300 dark:bg-slate-800/40 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob" style={{ animationDelay: '4000ms' }}></div>
-        </div>
+    return (
+        <div className="relative min-h-screen bg-slate-50 dark:bg-slate-900 overflow-hidden">
+            {/* Global Homepage Background */}
+            {init && <Particles id="tsparticles-home" options={particlesOptions} />}
 
-        {/* Content */}
-        <div className="relative z-10">
-            <Hero />
-            <Why />
+            {/* Global Animated Blobs */}
+            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+                <div className="absolute top-20 left-10 w-72 h-72 sm:w-96 sm:h-96 bg-blue-200 dark:bg-blue-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob"></div>
+                <div className="absolute top-40 right-10 w-72 h-72 sm:w-96 sm:h-96 bg-indigo-200 dark:bg-indigo-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob" style={{ animationDelay: '2000ms' }}></div>
+                <div className="absolute bottom-10 left-1/2 w-72 h-72 sm:w-96 sm:h-96 bg-slate-300 dark:bg-slate-800/40 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob" style={{ animationDelay: '4000ms' }}></div>
+            </div>
+
+            {/* Content */}
+            <div className="relative z-10">
+                <Hero />
+                <Why />
+
+                <How />
+                <Program />
+            </div>
         </div>
-    </div>
-  );
+    );
 };
 
 export default Home;

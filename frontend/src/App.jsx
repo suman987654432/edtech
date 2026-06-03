@@ -8,23 +8,28 @@ import SuccessStories from './pages/SuccessStories';
 import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 import { ThemeProvider } from './context/ThemeContext';
+import { ApplicationProvider } from './context/ApplicationContext';
+import Form from './components/Form';
 
 const App = () => {
   return (
     <ThemeProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<Home />} />
-            <Route path="programs" element={<Programs />} />
-            <Route path="how-it-works" element={<HowItWorks />} />
-            <Route path="mentors" element={<Mentors />} />
-            <Route path="success-stories" element={<SuccessStories />} />
-            <Route path="blog" element={<Blog />} />
-            <Route path="contact" element={<Contact />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <ApplicationProvider>
+        <BrowserRouter>
+          <Form />
+          <Routes>
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<Home />} />
+              <Route path="programs" element={<Programs />} />
+              <Route path="how-it-works" element={<HowItWorks />} />
+              <Route path="mentors" element={<Mentors />} />
+              <Route path="success-stories" element={<SuccessStories />} />
+              <Route path="blog" element={<Blog />} />
+              <Route path="contact" element={<Contact />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </ApplicationProvider>
     </ThemeProvider>
   )
 }
