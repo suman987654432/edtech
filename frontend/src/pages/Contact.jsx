@@ -7,6 +7,17 @@ import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaPaperPlane } from 'react-icon
 const Contact = () => {
   const { isDarkMode } = useTheme();
   const [init, setInit] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [status, setStatus] = useState({
+    loading: false,
+    success: null,
+    error: null
+  });
 
   useEffect(() => {
     initParticlesEngine(async (engine) => {
@@ -40,10 +51,38 @@ const Contact = () => {
     detectRetina: true
   }), [isDarkMode]);
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate form submission
-    alert('Message sent successfully! We will get back to you soon.');
+    setStatus({ loading: true, success: null, error: null });
+
+    try {
+      const response = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStatus({ loading: false, success: data.message || 'Message sent successfully!', error: null });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setStatus({ loading: false, success: null, error: data.message || 'Failed to send message.' });
+      }
+    } catch (err) {
+      console.error('Error submitting contact form:', err);
+      setStatus({ loading: false, success: null, error: 'Network error. Please try again later.' });
+    }
   };
 
   return (
@@ -90,6 +129,8 @@ const Contact = () => {
                     id="name"
                     required
                     placeholder="Jane Doe"
+                    value={formData.name}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-slate-900 dark:text-white transition-shadow"
                   />
                 </div>
@@ -101,6 +142,8 @@ const Contact = () => {
                     id="email"
                     required
                     placeholder="jane@example.com"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-slate-900 dark:text-white transition-shadow"
                   />
                 </div>
@@ -114,6 +157,8 @@ const Contact = () => {
                   id="subject"
                   required
                   placeholder="How can we help you?"
+                  value={formData.subject}
+                  onChange={handleChange}
                   className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-slate-900 dark:text-white transition-shadow"
                 />
               </div>
@@ -126,17 +171,32 @@ const Contact = () => {
                   rows="4"
                   required
                   placeholder="Tell us about your inquiry..."
+                  value={formData.message}
+                  onChange={handleChange}
                   className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-slate-900 dark:text-white transition-shadow resize-none"
                 ></textarea>
               </div>
 
+              {/* Status Alert Banner */}
+              {status.success && (
+                <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800 text-sm font-medium">
+                  {status.success}
+                </div>
+              )}
+              {status.error && (
+                <div className="p-4 rounded-xl bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-800 text-sm font-medium">
+                  {status.error}
+                </div>
+              )}
+
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/30 flex items-center justify-center gap-3 group"
+                disabled={status.loading}
+                className="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/30 flex items-center justify-center gap-3 group"
               >
-                Send Message
-                <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                {status.loading ? 'Sending...' : 'Send Message'}
+                <FaPaperPlane className={`group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform ${status.loading ? 'animate-pulse' : ''}`} />
               </button>
             </form>
 

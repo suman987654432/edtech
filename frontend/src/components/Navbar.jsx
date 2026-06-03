@@ -25,9 +25,7 @@ const Navbar = () => {
           {/* Left: Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-md">
-                <span className="text-white font-bold text-2xl leading-none pt-0.5">C</span>
-              </div>
+              <img src="/loggo_.png" alt="CareerForge Logo" className="h-12 w-auto object-contain" />
               <span className="font-bold text-3xl text-slate-900 dark:text-white tracking-tight">Career<span className="text-blue-600">Forge</span></span>
             </Link>
           </div>

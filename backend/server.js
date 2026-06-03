@@ -11,6 +11,7 @@ const __dirname = path.dirname(__filename);
 // Import Routes (will be created in next step)
 import authRoutes from './routes/authRoutes.js';
 import applicationRoutes from './routes/applicationRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/applications', applicationRoutes);
+app.use('/api/contact', contactRoutes);
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
