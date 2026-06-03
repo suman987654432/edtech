@@ -1,10 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useApplication } from '../context/ApplicationContext';
+import { useAuth } from '../context/AuthContext';
 import { FaTimes, FaPaperPlane } from 'react-icons/fa';
 
 const Form = () => {
     const { isFormOpen, closeForm } = useApplication();
+    const { user } = useAuth();
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     // Prevent background scroll when modal is open
     useEffect(() => {
@@ -28,10 +32,45 @@ const Form = () => {
 
     if (!isFormOpen) return null;
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        alert('Application submitted successfully!');
-        closeForm();
+        setError('');
+        setLoading(true);
+
+        const form = e.target;
+        const payload = {
+            name: form.fullName.value,
+            email: form.email.value,
+            phone: form.phone.value,
+            college: form.college.value,
+            yearOfStudy: form.yearOfStudy.value,
+            program: form.program.value,
+            reason: form.reason.value,
+        };
+
+        try {
+            const res = await fetch('http://localhost:5000/api/applications', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user?.token}`
+                },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+
+            if (res.ok) {
+                alert('Application submitted successfully!');
+                form.reset();
+                closeForm();
+            } else {
+                setError(data.message || 'Submission failed');
+            }
+        } catch (err) {
+            setError('Server error. Is the backend running?');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return createPortal(
@@ -60,8 +99,13 @@ const Form = () => {
                 </div>
 
                 {/* Scrollable Form Content */}
-                <div className="flex-1  p-6 sm:p-10 overflow-y-auto scrollbar-hide">
-                    <form onSubmit={handleSubmit} className="space-y-3">
+                <div className="flex-1 min-h-0 p-6 sm:p-10 overflow-y-auto scrollbar-hide">
+                    {error && (
+                        <div className="mb-6 p-3 bg-red-100 border border-red-200 text-red-700 rounded-xl text-sm font-medium">
+                            {error}
+                        </div>
+                    )}
+                    <form onSubmit={handleSubmit} className="space-y-6">
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {/* Name */}
@@ -69,6 +113,7 @@ const Form = () => {
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Full Name</label>
                                 <input
                                     type="text"
+                                    name="fullName"
                                     required
                                     placeholder="John Doe"
                                     className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white"
@@ -80,6 +125,7 @@ const Form = () => {
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
                                 <input
                                     type="email"
+                                    name="email"
                                     required
                                     placeholder="john@example.com"
                                     className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white"
@@ -93,6 +139,7 @@ const Form = () => {
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Phone Number</label>
                                 <input
                                     type="tel"
+                                    name="phone"
                                     required
                                     placeholder="+1 (555) 000-0000"
                                     className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white"
@@ -104,6 +151,7 @@ const Form = () => {
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">College / University</label>
                                 <input
                                     type="text"
+                                    name="college"
                                     required
                                     placeholder="e.g. MIT, Stanford, DTU"
                                     className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white"
@@ -116,10 +164,12 @@ const Form = () => {
                             <div className="space-y-2">
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Year of Study</label>
                                 <select
+                                    name="yearOfStudy"
                                     required
+                                    defaultValue=""
                                     className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white appearance-none"
                                 >
-                                    <option value="" disabled selected>Select Year</option>
+                                    <option value="" disabled>Select Year</option>
                                     <option value="1">1st Year</option>
                                     <option value="2">2nd Year</option>
                                     <option value="3">3rd Year</option>
@@ -132,10 +182,12 @@ const Form = () => {
                             <div className="space-y-2">
                                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Program Interested In</label>
                                 <select
+                                    name="program"
                                     required
+                                    defaultValue=""
                                     className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white appearance-none"
                                 >
-                                    <option value="" disabled selected>Select Program</option>
+                                    <option value="" disabled>Select Program</option>
                                     <option value="mern">MERN Stack Development</option>
                                     <option value="frontend">Frontend Development</option>
                                     <option value="backend">Backend Development</option>
@@ -150,6 +202,7 @@ const Form = () => {
                         <div className="space-y-2">
                             <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Why do you want to join?</label>
                             <textarea
+                                name="reason"
                                 rows="4"
                                 required
                                 placeholder="Tell us about your goals and what you hope to achieve..."
@@ -161,10 +214,11 @@ const Form = () => {
                         <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
                             <button
                                 type="submit"
-                                className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/30 flex items-center justify-center gap-3 group"
+                                disabled={loading}
+                                className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/30 flex items-center justify-center gap-3 group disabled:opacity-70"
                             >
-                                Submit Application
-                                <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                {loading ? 'Submitting...' : 'Submit Application'}
+                                {!loading && <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
                             </button>
                         </div>
 

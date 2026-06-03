@@ -119,7 +119,7 @@ const Blog = () => {
         value: { min: 1, max: 3 },
         animation: { enable: true, speed: 2, sync: false }
       },
-      move: { enable: true, speed: 0.5, direction: "none", random: true, straight: false, outModes: "bounce" }
+      move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: "bounce" }
     },
     detectRetina: true
   }), [isDarkMode]);
@@ -139,15 +139,15 @@ const Blog = () => {
 
       {/* Page Hero Section */}
       <div className="relative overflow-hidden z-10">
-        <div className="max-w-7xl mx-auto px-6 pt-8 pb-16 md:pt-12 md:pb-20 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 pt-16 pb-16 md:pt-24 md:pb-20 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold text-sm mb-8 border border-blue-100 dark:border-blue-800">
-              📰 Tech Insights
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold text-sm mb-8 border border-blue-100 dark:border-blue-800 opacity-0 animate-fade-in-up" style={{ animationDelay: '100ms', animationFillMode: 'forwards' }}>
+              Tech Insights
             </div>
-            <h1 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tight mb-8">
+            <h1 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tight mb-8 opacity-0 animate-fade-in-up" style={{ animationDelay: '250ms', animationFillMode: 'forwards' }}>
               The <span className="text-blue-600 dark:text-blue-400">Tech Blog</span>
             </h1>
-            <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 font-light leading-relaxed mb-12">
+            <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 font-light leading-relaxed mb-12 opacity-0 animate-fade-in-up" style={{ animationDelay: '400ms', animationFillMode: 'forwards' }}>
               Stay ahead of the curve. Read the latest insights, tutorials, and tech news curated by industry experts.
             </p>
           </div>

@@ -38,7 +38,7 @@ const Home = () => {
                 value: { min: 1, max: 3 },
                 animation: { enable: true, speed: 2, sync: false }
             },
-            move: { enable: true, speed: 0.5, direction: "none", random: true, straight: false, outModes: "bounce" }
+            move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: "bounce" }
         },
         detectRetina: true
     }), [isDarkMode]);

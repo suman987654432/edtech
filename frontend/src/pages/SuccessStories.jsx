@@ -35,7 +35,7 @@ const SuccessStories = () => {
               value: { min: 1, max: 3 },
               animation: { enable: true, speed: 2, sync: false }
           },
-          move: { enable: true, speed: 0.5, direction: "none", random: true, straight: false, outModes: "bounce" }
+          move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: "bounce" }
       },
       detectRetina: true
   }), [isDarkMode]);
@@ -55,16 +55,16 @@ const SuccessStories = () => {
 
       {/* Coming Soon Card */}
       <div className="relative z-10 max-w-lg w-full mx-6 p-10 bg-white/60 dark:bg-slate-800/60 backdrop-blur-2xl rounded-[2rem] border border-white/20 dark:border-slate-700/50 shadow-2xl text-center">
-        <div className="w-24 h-24 mx-auto bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center text-5xl mb-8 shadow-inner">
+        <div className="w-24 h-24 mx-auto bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center text-5xl mb-8 shadow-inner opacity-0 animate-fade-in-up" style={{ animationDelay: '100ms', animationFillMode: 'forwards' }}>
            <FaTrophy />
-        </div>
-        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">
+         </div>
+        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight opacity-0 animate-fade-in-up" style={{ animationDelay: '250ms', animationFillMode: 'forwards' }}>
           Success Stories
         </h1>
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600 text-white font-bold text-sm mb-6 shadow-lg shadow-blue-500/30 animate-pulse">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600 text-white font-bold text-sm mb-6 shadow-lg shadow-blue-500/30 animate-pulse opacity-0 animate-fade-in-up" style={{ animationDelay: '400ms', animationFillMode: 'forwards' }}>
           Coming Soon
         </div>
-        <p className="text-lg text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+        <p className="text-lg text-slate-600 dark:text-slate-400 font-light leading-relaxed opacity-0 animate-fade-in-up" style={{ animationDelay: '550ms', animationFillMode: 'forwards' }}>
           We are currently preparing amazing stories from our successful alumni. Check back soon to get inspired by their achievements!
         </p>
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { FaLaptopCode, FaArrowRight, FaChalkboardTeacher, FaUsers, FaCertificate } from 'react-icons/fa';
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
@@ -38,6 +38,8 @@ const features = [
 const Why = () => {
     const { isDarkMode } = useTheme();
     const [init, setInit] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    const containerRef = useRef(null);
 
     useEffect(() => {
         initParticlesEngine(async (engine) => {
@@ -45,6 +47,25 @@ const Why = () => {
         }).then(() => {
             setInit(true);
         });
+    }, []);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsVisible(entry.isIntersecting);
+            },
+            { threshold: 0.1 }
+        );
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        return () => {
+            if (containerRef.current) {
+                observer.unobserve(containerRef.current);
+            }
+        };
     }, []);
 
     const particlesOptions = useMemo(() => ({
@@ -66,7 +87,7 @@ const Why = () => {
                 value: { min: 1, max: 3 },
                 animation: { enable: true, speed: 2, sync: false }
             },
-            move: { enable: true, speed: 0.5, direction: "none", random: true, straight: false, outModes: "bounce" }
+            move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: "bounce" }
         },
         detectRetina: true
     }), [isDarkMode]);
@@ -81,11 +102,11 @@ const Why = () => {
             <div className="absolute top-20 left-10 w-72 h-72 sm:w-96 sm:h-96 bg-blue-200 dark:bg-blue-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob"></div>
             <div className="absolute top-40 right-10 w-72 h-72 sm:w-96 sm:h-96 bg-indigo-200 dark:bg-indigo-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob" style={{ animationDelay: '2000ms' }}></div>
             <div className="absolute bottom-10 left-1/2 w-72 h-72 sm:w-96 sm:h-96 bg-slate-300 dark:bg-slate-800/40 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob" style={{ animationDelay: '4000ms' }}></div>
-
+ 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Premium Centered Header */}
                 <div className="flex flex-col items-center text-center gap-6 mb-20">
-
+ 
                     <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.05]">
                         Why Choose{' '}
                         <span className="text-blue-700 dark:text-blue-500">Us?</span>
@@ -94,43 +115,59 @@ const Why = () => {
                         We bridge the gap between academic theory and industry reality through immersive, project-based learning.
                     </p>
                 </div>
+ 
+                <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {features.map((feature, index) => {
+                        const transitionClass = isVisible 
+                            ? 'opacity-100 translate-x-0 translate-y-0' 
+                            : index === 0 
+                                ? 'opacity-0 -translate-x-20' 
+                                : index === 1 
+                                    ? 'opacity-0 translate-y-20 -translate-x-10' 
+                                    : index === 2 
+                                        ? 'opacity-0 translate-y-20 translate-x-10' 
+                                        : 'opacity-0 translate-x-20';
+ 
+                        return (
+                            <div 
+                                key={index} 
+                                className={`relative group w-full h-[380px] [perspective:1000px] cursor-pointer transition-all duration-[1200ms] ease-out ${transitionClass}`}
+                                style={{ transitionDelay: `${index * 150}ms` }}
+                            >
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {features.map((feature, index) => (
-                        <div key={index} className="relative group w-full h-[380px] [perspective:1000px] cursor-pointer">
+                                {/* Inner Container for 3D Flip */}
+                                <div className="absolute inset-0 w-full h-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-sm group-hover:shadow-xl rounded-2xl">
 
-                            {/* Inner Container for 3D Flip */}
-                            <div className="absolute inset-0 w-full h-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-sm group-hover:shadow-xl rounded-2xl">
-
-                                {/* Front Face */}
-                                <div className="absolute inset-0 w-full h-full bg-white dark:bg-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center text-center [backface-visibility:hidden]">
-                                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.gradient} text-white flex items-center justify-center shadow-lg mb-6 transition-transform duration-500 group-hover:scale-110`}>
-                                        <div className="text-3xl">
-                                            {feature.icon}
+                                    {/* Front Face */}
+                                    <div className="absolute inset-0 w-full h-full bg-white dark:bg-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center text-center [backface-visibility:hidden]">
+                                        <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.gradient} text-white flex items-center justify-center shadow-lg mb-6 transition-transform duration-500 group-hover:scale-110`}>
+                                            <div className="text-3xl">
+                                                {feature.icon}
+                                            </div>
                                         </div>
+                                        <h4 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+                                            {feature.title}
+                                        </h4>
+                                        <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed font-medium">
+                                            {feature.description}
+                                        </p>
                                     </div>
-                                    <h4 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-                                        {feature.title}
-                                    </h4>
-                                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed font-medium">
-                                        {feature.description}
-                                    </p>
-                                </div>
 
-                                {/* Back Face (Purely Image) */}
-                                <div className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden [transform:rotateY(180deg)] [backface-visibility:hidden] border border-slate-200 dark:border-slate-700">
-                                    <img
-                                        src={feature.image}
-                                        alt={feature.title}
-                                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                                    />
-                                    {/* Light overlay just to blend with theme, but completely transparent so image pops */}
-                                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-20 mix-blend-overlay`}></div>
-                                </div>
+                                    {/* Back Face (Purely Image) */}
+                                    <div className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden [transform:rotateY(180deg)] [backface-visibility:hidden] border border-slate-200 dark:border-slate-700">
+                                        <img
+                                            src={feature.image}
+                                            alt={feature.title}
+                                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                                        />
+                                        {/* Light overlay just to blend with theme, but completely transparent so image pops */}
+                                        <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-20 mix-blend-overlay`}></div>
+                                    </div>
 
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </section>
