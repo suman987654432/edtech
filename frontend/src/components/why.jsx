@@ -1,170 +1,83 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
-import { FaLaptopCode, FaArrowRight, FaChalkboardTeacher, FaUsers, FaCertificate } from 'react-icons/fa';
-import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim";
-import { useTheme } from '../context/ThemeContext';
+import React from 'react';
+import { FaLaptopCode, FaChalkboardTeacher, FaUsers, FaCertificate } from 'react-icons/fa';
 
 const features = [
     {
         title: "Real Projects",
         description: "Build production-ready applications that solve actual industry problems, not just theoretical exercises.",
-        icon: <FaLaptopCode className="w-8 h-8" />,
-        gradient: "from-blue-500 to-cyan-400",
-        image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800"
+        icon: <FaLaptopCode className="w-6 h-6" />,
+        color: "bg-blue-600",
+        badge: "Industry Standard"
     },
     {
         title: "Expert Mentorship",
-        description: "Get 1-on-1 guidance and code reviews from senior developers working at top tech companies.",
-        icon: <FaChalkboardTeacher className="w-8 h-8" />,
-        gradient: "from-purple-500 to-indigo-500",
-        image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800"
+        description: "Get 1-on-1 guidance and weekly code reviews from senior developers working at top tech companies.",
+        icon: <FaChalkboardTeacher className="w-6 h-6" />,
+        color: "bg-indigo-600",
+        badge: "1-on-1 Help"
     },
     {
         title: "Team Collaboration",
-        description: "Learn Agile workflows, Git version control, and modern team dynamics just like in the real world.",
-        icon: <FaUsers className="w-8 h-8" />,
-        gradient: "from-pink-500 to-rose-400",
-        image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800"
+        description: "Learn Agile workflows, Git version control, and team communication dynamics just like in modern software teams.",
+        icon: <FaUsers className="w-6 h-6" />,
+        color: "bg-purple-600",
+        badge: "Agile Teams"
     },
     {
         title: "Industry Certificate",
-        description: "Earn a verified credential that holds weight with top technical recruiters globally.",
-        icon: <FaCertificate className="w-8 h-8" />,
-        gradient: "from-amber-400 to-orange-500",
-        image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=800"
+        description: "Earn a verified credential and git-ready project portfolio that holds real weight with technical recruiters.",
+        icon: <FaCertificate className="w-6 h-6" />,
+        color: "bg-sky-600",
+        badge: "Verified"
     }
 ];
 
 const Why = () => {
-    const { isDarkMode } = useTheme();
-    const [init, setInit] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
-    const containerRef = useRef(null);
-
-    useEffect(() => {
-        initParticlesEngine(async (engine) => {
-            await loadSlim(engine);
-        }).then(() => {
-            setInit(true);
-        });
-    }, []);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                setIsVisible(entry.isIntersecting);
-            },
-            { threshold: 0.1 }
-        );
-
-        if (containerRef.current) {
-            observer.observe(containerRef.current);
-        }
-
-        return () => {
-            if (containerRef.current) {
-                observer.unobserve(containerRef.current);
-            }
-        };
-    }, []);
-
-    const particlesOptions = useMemo(() => ({
-        fullScreen: { enable: false },
-        background: { color: { value: "transparent" } },
-        fpsLimit: 120,
-        interactivity: {
-            events: { onHover: { enable: true, mode: "repulse" } },
-            modes: { repulse: { distance: 100, duration: 0.4 } }
-        },
-        particles: {
-            color: { value: isDarkMode ? "#ffffff" : "#3b82f6" },
-            number: { value: 80, density: { enable: true, width: 800 } }, // Slightly fewer stars for the content section
-            opacity: {
-                value: { min: 0.2, max: 0.8 },
-                animation: { enable: true, speed: 1, sync: false }
-            },
-            size: {
-                value: { min: 1, max: 3 },
-                animation: { enable: true, speed: 2, sync: false }
-            },
-            move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: "bounce" }
-        },
-        detectRetina: true
-    }), [isDarkMode]);
-
     return (
-        <section className="py-24  relative overflow-hidden">
-            {/* TSParticles Background */}
-            <div className="absolute inset-0 z-0" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}>
-                {init && <Particles id="tsparticles-why" options={particlesOptions} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }} />}
-            </div>
-            {/* Background Animated Blobs */}
-            <div className="absolute top-20 left-10 w-72 h-72 sm:w-96 sm:h-96 bg-blue-200 dark:bg-blue-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob"></div>
-            <div className="absolute top-40 right-10 w-72 h-72 sm:w-96 sm:h-96 bg-indigo-200 dark:bg-indigo-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob" style={{ animationDelay: '2000ms' }}></div>
-            <div className="absolute bottom-10 left-1/2 w-72 h-72 sm:w-96 sm:h-96 bg-slate-300 dark:bg-slate-800/40 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob" style={{ animationDelay: '4000ms' }}></div>
- 
+        <section className="py-24 relative overflow-hidden bg-slate-50/50 dark:bg-slate-900/50 border-y border-slate-100 dark:border-slate-800">
+            {/* Soft background grid pattern */}
+            <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none"></div>
+
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Premium Centered Header */}
-                <div className="flex flex-col items-center text-center gap-6 mb-20">
- 
-                    <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.05]">
+                <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-20">
+                    <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-6">
                         Why Choose{' '}
-                        <span className="text-blue-700 dark:text-blue-500">Us?</span>
+                        <span className="text-blue-600 dark:text-blue-400">Us?</span>
                     </h2>
-                    <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed">
-                        We bridge the gap between academic theory and industry reality through immersive, project-based learning.
+                    <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
+                        We bridge the gap between academic theory and industry reality through immersive, team-based development workflows.
                     </p>
                 </div>
  
-                <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {features.map((feature, index) => {
-                        const transitionClass = isVisible 
-                            ? 'opacity-100 translate-x-0 translate-y-0' 
-                            : index === 0 
-                                ? 'opacity-0 -translate-x-20' 
-                                : index === 1 
-                                    ? 'opacity-0 translate-y-20 -translate-x-10' 
-                                    : index === 2 
-                                        ? 'opacity-0 translate-y-20 translate-x-10' 
-                                        : 'opacity-0 translate-x-20';
- 
                         return (
                             <div 
                                 key={index} 
-                                className={`relative group w-full h-[380px] [perspective:1000px] cursor-pointer transition-all duration-[1200ms] ease-out ${transitionClass}`}
-                                style={{ transitionDelay: `${index * 150}ms` }}
+                                className="relative group w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-600 flex flex-col justify-between"
                             >
-
-                                {/* Inner Container for 3D Flip */}
-                                <div className="absolute inset-0 w-full h-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-sm group-hover:shadow-xl rounded-2xl">
-
-                                    {/* Front Face */}
-                                    <div className="absolute inset-0 w-full h-full bg-white dark:bg-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center text-center [backface-visibility:hidden]">
-                                        <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.gradient} text-white flex items-center justify-center shadow-lg mb-6 transition-transform duration-500 group-hover:scale-110`}>
-                                            <div className="text-3xl">
-                                                {feature.icon}
-                                            </div>
+                                <div>
+                                    {/* Icon Container with Badge */}
+                                    <div className="flex items-center justify-between mb-8">
+                                        <div className={`w-12 h-12 rounded-xl ${feature.color} text-white flex items-center justify-center shadow-md`}>
+                                            {feature.icon}
                                         </div>
-                                        <h4 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-                                            {feature.title}
-                                        </h4>
-                                        <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed font-medium">
-                                            {feature.description}
-                                        </p>
+                                        <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
+                                            {feature.badge}
+                                        </span>
                                     </div>
 
-                                    {/* Back Face (Purely Image) */}
-                                    <div className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden [transform:rotateY(180deg)] [backface-visibility:hidden] border border-slate-200 dark:border-slate-700">
-                                        <img
-                                            src={feature.image}
-                                            alt={feature.title}
-                                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                                        />
-                                        {/* Light overlay just to blend with theme, but completely transparent so image pops */}
-                                        <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-20 mix-blend-overlay`}></div>
-                                    </div>
-
+                                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight">
+                                        {feature.title}
+                                    </h3>
+                                    
+                                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed font-medium mb-6">
+                                        {feature.description}
+                                    </p>
                                 </div>
+
+                                <div className="h-1 w-12 rounded-full bg-blue-600 opacity-60 group-hover:w-full transition-all duration-500"></div>
                             </div>
                         );
                     })}

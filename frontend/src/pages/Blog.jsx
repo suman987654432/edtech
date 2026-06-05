@@ -1,7 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim";
-import { useTheme } from '../context/ThemeContext';
+import React, { useState, useEffect } from 'react';
 import { FaArrowRight, FaTimes } from 'react-icons/fa';
 
 const blogPosts = [
@@ -68,17 +65,7 @@ const blogPosts = [
 ];
 
 const Blog = () => {
-  const { isDarkMode } = useTheme();
-  const [init, setInit] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
-
-  useEffect(() => {
-    initParticlesEngine(async (engine) => {
-      await loadSlim(engine);
-    }).then(() => {
-      setInit(true);
-    });
-  }, []);
 
   // Handle closing modal on escape key
   useEffect(() => {
@@ -100,54 +87,22 @@ const Blog = () => {
     }
   }, [selectedPost]);
 
-  const particlesOptions = useMemo(() => ({
-    fullScreen: { enable: true, zIndex: 0 },
-    background: { color: { value: "transparent" } },
-    fpsLimit: 120,
-    interactivity: {
-      events: { onHover: { enable: true, mode: "repulse" } },
-      modes: { repulse: { distance: 100, duration: 0.4 } }
-    },
-    particles: {
-      color: { value: isDarkMode ? "#ffffff" : "#3b82f6" },
-      number: { value: 120, density: { enable: true, width: 800 } },
-      opacity: {
-        value: { min: 0.2, max: 0.8 },
-        animation: { enable: true, speed: 1, sync: false }
-      },
-      size: {
-        value: { min: 1, max: 3 },
-        animation: { enable: true, speed: 2, sync: false }
-      },
-      move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: "bounce" }
-    },
-    detectRetina: true
-  }), [isDarkMode]);
-
   return (
-    <div className="relative min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-500 pt-0 overflow-hidden">
-
-      {/* Global Background */}
-      {init && <Particles id="tsparticles-blog" options={particlesOptions} />}
-
-      {/* Global Animated Blobs */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-20 left-10 w-72 h-72 sm:w-96 sm:h-96 bg-blue-200 dark:bg-blue-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob"></div>
-        <div className="absolute top-40 right-10 w-72 h-72 sm:w-96 sm:h-96 bg-indigo-200 dark:bg-indigo-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob" style={{ animationDelay: '2000ms' }}></div>
-        <div className="absolute bottom-10 left-1/2 w-72 h-72 sm:w-96 sm:h-96 bg-slate-300 dark:bg-slate-800/40 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-50 dark:opacity-30 animate-blob" style={{ animationDelay: '4000ms' }}></div>
-      </div>
+    <div className="relative min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 overflow-hidden">
+      {/* Background grid pattern */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-60 pointer-events-none z-0"></div>
 
       {/* Page Hero Section */}
       <div className="relative overflow-hidden z-10">
-        <div className="max-w-7xl mx-auto px-6 pt-16 pb-16 md:pt-24 md:pb-20 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 pt-20 pb-12 md:pt-28 md:pb-16 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold text-sm mb-8 border border-blue-100 dark:border-blue-800 opacity-0 animate-fade-in-up" style={{ animationDelay: '100ms', animationFillMode: 'forwards' }}>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 font-semibold text-xs mb-8 border border-blue-100 dark:border-blue-950">
               Tech Insights
             </div>
-            <h1 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tight mb-8 opacity-0 animate-fade-in-up" style={{ animationDelay: '250ms', animationFillMode: 'forwards' }}>
+            <h1 className="text-5xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight mb-6">
               The <span className="text-blue-600 dark:text-blue-400">Tech Blog</span>
             </h1>
-            <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 font-light leading-relaxed mb-12 opacity-0 animate-fade-in-up" style={{ animationDelay: '400ms', animationFillMode: 'forwards' }}>
+            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 font-normal leading-relaxed mb-8 max-w-2xl mx-auto">
               Stay ahead of the curve. Read the latest insights, tutorials, and tech news curated by industry experts.
             </p>
           </div>
@@ -162,7 +117,7 @@ const Blog = () => {
               <div
                 key={post.id}
                 onClick={() => setSelectedPost(post)}
-                className="group flex flex-col bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700/80 overflow-hidden hover:-translate-y-2 hover:shadow-2xl hover:shadow-slate-200 dark:hover:shadow-black/50 transition-all duration-300 cursor-pointer"
+                className="group flex flex-col bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 overflow-hidden hover:-translate-y-1.5 hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 cursor-pointer"
               >
                 {/* Image Container */}
                 <div className="relative h-56 overflow-hidden bg-slate-200 dark:bg-slate-700">
@@ -178,23 +133,23 @@ const Blog = () => {
 
                 {/* Content */}
                 <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
                     {post.title}
                   </h3>
-                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-6 flex-grow line-clamp-3">
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-6 flex-grow line-clamp-3 text-sm font-medium">
                     {post.excerpt}
                   </p>
 
                   {/* Footer details */}
                   <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-700 mt-auto">
-                    <div className="flex items-center text-sm text-slate-500 dark:text-slate-400 font-medium">
+                    <div className="flex items-center text-xs text-slate-500 dark:text-slate-400 font-medium">
                       <span>{post.date}</span>
                       <span className="mx-2">•</span>
                       <span>{post.readTime}</span>
                     </div>
 
                     <button className="text-blue-600 dark:text-blue-400 flex items-center justify-center p-2 rounded-full group-hover:bg-blue-50 dark:group-hover:bg-blue-900/30 transition-colors">
-                      <FaArrowRight className="transform -rotate-45 group-hover:rotate-0 transition-transform duration-300" />
+                      <FaArrowRight className="transform -rotate-45 group-hover:rotate-0 transition-transform duration-300 text-sm" />
                     </button>
                   </div>
                 </div>
@@ -214,7 +169,7 @@ const Blog = () => {
           ></div>
 
           {/* Modal Container */}
-          <div className="relative bg-white dark:bg-slate-800 rounded-3xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] transform transition-all animate-in fade-in zoom-in-95 duration-300">
+          <div className="relative bg-white dark:bg-slate-800 rounded-3xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] transform transition-all animate-in fade-in zoom-in-95 duration-300 z-10">
 
             {/* Close Button */}
             <button
@@ -238,7 +193,7 @@ const Blog = () => {
                 <div className="inline-block bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider mb-4 shadow-sm">
                   {selectedPost.category}
                 </div>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-tight">
                   {selectedPost.title}
                 </h2>
               </div>
